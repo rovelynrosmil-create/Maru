@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, My Babi</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --card-bg: #ffffff;
+            --accent: #333333;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg);
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* --- UNLOCK OVERLAY --- */
+        #overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            transition: opacity 1s ease;
+        }
+
+        .unlock-btn {
+            background: none;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            border-radius: 50px;
+            margin-top: 20px;
+        }
+
+        /* --- MAIN CARD --- */
+        .card {
+            width: 85%;
+            max-width: 350px;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            position: relative;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 1s ease;
+        }
+
+        .card.active {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* --- PHOTO STYLING --- */
+        .photo-container {
+            width: 100%;
+            height: 250px;
+            border: 1px solid #000;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%); /* Keeps B&W theme */
+            transition: filter 0.5s ease;
+        }
+
+        .photo-container img:hover {
+            filter: grayscale(0%);
+        }
+
+        /* --- TEXT STYLING --- */
+        h1 {
+            font-size: 1.4rem;
+            color: #000;
+            margin: 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        p {
+            font-size: 0.9rem;
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .footer-kisses {
+            font-size: 1.2rem;
+            color: #000;
+            margin-top: 10px;
+        }
+
+        /* --- ANIMATIONS --- */
+        .heart {
+            position: absolute;
+            color: #fff;
+            pointer-events: none;
+            z-index: 50;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <p style="letter-spacing: 5px;">FOR YOU</p>
+        <button class="unlock-btn" onclick="startEverything()">OPEN</button>
+    </div>
+
+    <div class="card floating" id="birthdayCard">
+        <div class="photo-container">
+            <img src="her.jpeg.jpg" alt="sanctuary" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+        </div>
+        
+        <h1>Happy Birthday</h1>
+        <p>To the most amazing person in my world. May your day be as happy and full of love. I love you endlessly.</p>
+        
+        <div class="footer-kisses">
+            X O X O 💋
+        </div>
+    </div>
+
+    <audio id="bgMusic" src="https://www.youtube.com/watch?v=B4HD6aC4Wos&list=RDB4HD6aC4Wos&start_radio=1" loop></audio>
+
+    <script>
+        function startEverything() {
+            // Hide Overlay
+            document.getElementById('overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('overlay').style.display = 'none';
+            }, 1000);
+
+            // Show Card
+            document.getElementById('birthdayCard').classList.add('active');
+
+            // Play Music
+            document.getElementById('bgMusic').play();
+
+            // Start Falling Hearts/Kisses
+            setInterval(createHeart, 300);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            
+            // Randomly choose between heart and kiss
+            const icons = ['♡', 'x', '💋', '❤︎'];
+            heart.innerText = icons[Math.floor(Math.random() * icons.length)];
+            
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+            heart.style.fontSize = Math.random() * 20 + 10 + "px";
+            heart.style.opacity = Math.random();
+            
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
